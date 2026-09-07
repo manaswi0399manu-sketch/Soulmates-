@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Invitation</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #ffe6e9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 85%;
+      max-width: 380px;
+      position: relative;
+    }
+    h2 { color: #d32f2f; margin-bottom: 20px; }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+      position: relative;
+      min-height: 50px;
+    }
+    .btn {
+      padding: 12px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-yes { background-color: #2e7d32; color: white; }
+    .btn-no { background-color: #d32f2f; color: white; position: absolute; }
+    .hidden { display: none; }
+    .celebration-emoji { font-size: 60px; margin-top: 15px; }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    <div id="questionContainer">
+      <h2 id="questionText">Question 1 goes here</h2>
+      <div class="btn-group">
+        <button class="btn btn-yes" onclick="nextQuestion()">Yes!</button>
+        <button class="btn btn-no" id="noBtn" onmouseover="dodgeNo()" onclick="dodgeNo()" ontouchstart="dodgeNo()">No</button>
+      </div>
+    </div>
+
+    <div id="celebrationView" class="hidden">
+      <h2>Yay! I knew you'd say YES! 🎉</h2>
+      <p>Can't wait! It's going to be awesome! ✨</p>
+      <div class="celebration-emoji">🥳 🥰 💖 🥂</div>
+    </div>
+  </div>
+
+  <script>
+    // EDIT YOUR QUESTIONS HERE
+    const questions = [
+      "Will you promise not to say no? 🥺"
+    ];
+
+    let currentQuestion = 0;
+    const questionText = document.getElementById("questionText");
+    const noBtn = document.getElementById("noBtn");
+
+    questionText.innerText = questions[currentQuestion];
+
+    function nextQuestion() {
+      currentQuestion++;
+      resetNoButtonPosition();
+      
+      if (currentQuestion < questions.length) {
+        questionText.innerText = questions[currentQuestion];
+      } else {
+        document.getElementById("questionContainer").classList.add("hidden");
+        document.getElementById("celebrationView").classList.remove("hidden");
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        }
+      }
+    }
+
+    function dodgeNo() {
+      const card = document.getElementById("card");
+      const cardRect = card.getBoundingClientRect();
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
+
+      const maxX = cardRect.width - btnWidth - 20;
+      const maxY = cardRect.height - btnHeight - 20;
+
+      const randomX = Math.floor(Math.random() * maxX) - (cardRect.width / 2) + (btnWidth / 2);
+      const randomY = Math.floor(Math.random() * maxY) - (cardRect.height / 2) + (btnHeight / 2);
+
+      noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    function resetNoButtonPosition() {
+      noBtn.style.transform = "translate(0px, 0px)";
+    }
+  </script>
+</body>
+</html>
