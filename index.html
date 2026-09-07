@@ -30,6 +30,7 @@
     .btn-group {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 15px;
       margin-top: 25px;
       position: relative;
@@ -44,7 +45,13 @@
       font-weight: bold;
     }
     .btn-yes { background-color: #2e7d32; color: white; }
-    .btn-no { background-color: #d32f2f; color: white; position: absolute; }
+    .btn-no { 
+      background-color: #d32f2f; 
+      color: white; 
+      position: absolute;
+      /* Adds smooth spring/glide effect when dodging */
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
     .hidden { display: none; }
     .celebration-emoji { font-size: 60px; margin-top: 15px; }
   </style>
@@ -68,8 +75,9 @@
   </div>
 
   <script>
-    // EDIT YOUR QUESTIONS HERE
     const questions = [
+      "Are you free this weekend? 😊",
+      "Can I take you out for a treat? 🍕",
       "Will you promise not to say no? 🥺"
     ];
 
@@ -100,8 +108,8 @@
       const btnWidth = noBtn.offsetWidth;
       const btnHeight = noBtn.offsetHeight;
 
-      const maxX = cardRect.width - btnWidth - 20;
-      const maxY = cardRect.height - btnHeight - 20;
+      const maxX = cardRect.width - btnWidth - 40;
+      const maxY = cardRect.height - btnHeight - 40;
 
       const randomX = Math.floor(Math.random() * maxX) - (cardRect.width / 2) + (btnWidth / 2);
       const randomY = Math.floor(Math.random() * maxY) - (cardRect.height / 2) + (btnHeight / 2);
